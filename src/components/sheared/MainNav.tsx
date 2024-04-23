@@ -33,7 +33,9 @@ const MainNav = () => {
             </li>)
           }
         </ul>
-        <Button>Post a Blog</Button>
+        <Link href={'/create-blog'}>
+          <Button>Post a Blog</Button>
+        </Link>
       </div>
     </main>
   );
