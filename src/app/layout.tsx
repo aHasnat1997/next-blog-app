@@ -21,9 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <main className="min-h-screen flex flex-col gap-4">
-          {/* <main> */}
-          <MainNav />
-          {children}
+          <div className="bg-background">
+            <MainNav />
+            {children}
+          </div>
           <Footer />
         </main>
       </body>

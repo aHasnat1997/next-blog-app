@@ -2,7 +2,9 @@ import { TBlog } from "@/types";
 import Image from "next/image";
 
 const LatestBlog = async () => {
-  const data = await fetch('http://localhost:3000/api/blog');
+  const data = await fetch('http://localhost:3000/api/blog', {
+    cache: 'no-store'
+  });
   const blogsData = await data.json();
 
   return (
