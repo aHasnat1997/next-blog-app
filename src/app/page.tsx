@@ -1,11 +1,12 @@
 import Hero from '@/components/home/Hero';
-import { Button } from '@/components/ui/button';
+import LatestBlog from '@/components/home/LatestBlog';
 import React from 'react';
 
 const page = () => {
   return (
     <main>
       <Hero />
+      <LatestBlog />
     </main>
   );
 };
