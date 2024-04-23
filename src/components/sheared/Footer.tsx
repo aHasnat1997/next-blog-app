@@ -5,7 +5,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
   return (
     <footer className="w-full mt-auto">
-      <div className="bg-transparent w-full h-64"></div>
+      <div className="bg-transparent w-full h-56"></div>
       <div className="w-full bg-secondary fixed bottom-0 -z-40">
         <section className="py-16 flex flex-col items-center gap-4">
           <h2 className="text-4xl font-semibold">Next Blog</h2>

@@ -8,13 +8,13 @@ export async function GET() {
       success: true,
       message: 'All blog found',
       data: result
-    });
+    }, { status: 200 });
   } catch (error) {
     return NextResponse.json({
       success: false,
       message: 'Something went wrong',
       error
-    });
+    }, { status: 400 });
   }
 };
 
