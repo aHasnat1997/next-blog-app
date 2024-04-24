@@ -1,4 +1,4 @@
-import BlogCard from "@/components/sheared/BlogCard";
+import { BlogCard } from "@/components/sheared/BlogCard";
 import { TBlog } from "@/types";
 
 const BlogPage = async () => {

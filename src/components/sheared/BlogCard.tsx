@@ -1,8 +1,9 @@
 import { TBlog } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const BlogCard = ({ blog }: { blog: TBlog }) => {
+export const BlogCard = ({ blog }: { blog: TBlog }) => {
   return (
     <div>
       <Image
@@ -20,4 +21,14 @@ const BlogCard = ({ blog }: { blog: TBlog }) => {
   );
 };
 
-export default BlogCard;
+export const LoadingBlogCard = () => {
+  return (
+    <div>
+      <Skeleton className="w-full h-72 bg-slate-400" />
+      <div className="mt-6 flex flex-col gap-4">
+        <Skeleton className="bg-slate-400 py-2" />
+        <Skeleton className="bg-slate-400 py-4" />
+      </div>
+    </div>
+  );
+};
