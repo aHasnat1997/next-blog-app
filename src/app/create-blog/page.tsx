@@ -45,8 +45,8 @@ const CreateBlog = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blogData)
     })
-      .then((response) => response)
-      .then((result) => {
+      .then((response) => {
+        // console.log(response);
         toast({
           title: "Blog Successfully Post...",
         })
