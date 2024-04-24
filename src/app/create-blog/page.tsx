@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form"
 import { z } from "zod";
 import TextEditor from "@/components/createBlog/TextEditor";
 import { TBlog } from "@/types";
-import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import DOMPurify from "isomorphic-dompurify";
 
 const formSchema = z.object({
   title: z.string().min(2),
@@ -24,16 +24,19 @@ const CreateBlog = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: 'The Power of Positive Thinking',
-      imageUrl: 'https://example.com/images/positive_thinking.jpg',
+      title: '',
+      imageUrl: '',
       content: ''
     },
-  })
+  });
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const cleanContent = DOMPurify.sanitize(values.content);
     const blogData: TBlog = {
-      ...values,
+      title: values.title,
+      imageUrl: values.imageUrl,
+      content: cleanContent,
       author: 'Jane Doe',
       authorImage: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     };
