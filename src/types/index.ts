@@ -1,11 +1,11 @@
 export type TBlog = {
-  id: string;
+  id?: string;
   title: string;
   author: string;
   authorImage?: string;
   content: string;
   imageUrl: string;
-  likes: number;
-  createdAt: Date;
-  updatedAt: Date;
+  likes?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 };

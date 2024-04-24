@@ -28,9 +28,10 @@ export async function POST(req: Request) {
       data: result
     }, { status: 201 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({
       success: false,
-      message: 'Blog not created',
+      message: 'Something went wrong',
       error
     }, { status: 400 })
   }

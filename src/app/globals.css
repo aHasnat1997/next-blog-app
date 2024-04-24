@@ -78,4 +78,13 @@
   .max-section {
     @apply max-w-screen-2xl mx-4 md:mx-auto;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
