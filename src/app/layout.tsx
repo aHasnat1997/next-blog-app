@@ -4,6 +4,7 @@ import "./globals.css";
 import MainNav from "@/components/sheared/MainNav";
 import Footer from "@/components/sheared/Footer";
 import { Toaster } from "@/components/ui/toaster";
+import SessionWrapper from "@/components/sheared/SessionWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,17 +20,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <main className="min-h-screen flex flex-col gap-4">
-          <div className="bg-background">
-            <MainNav />
-            {children}
-          </div>
-          <Footer />
-        </main>
-        <Toaster />
-      </body>
-    </html>
+    <SessionWrapper>
+      <html lang="en">
+        <body className={inter.className}>
+          <main className="min-h-screen flex flex-col gap-4">
+            <div className="bg-background">
+              <MainNav />
+              {children}
+            </div>
+            <Footer />
+          </main>
+          <Toaster />
+        </body>
+      </html>
+    </SessionWrapper>
+
   );
 }

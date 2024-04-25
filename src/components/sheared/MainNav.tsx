@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
-import { Button } from "../ui/button";
+import Login from "../login";
+import { useSession } from "next-auth/react";
 
 const MainNav = () => {
+  const { data: session } = useSession();
+  console.log(session);
+
   const links = [
     {
       path: '/',
@@ -33,9 +39,7 @@ const MainNav = () => {
             </li>)
           }
         </ul>
-        <Link href={'/create-blog'}>
-          <Button>Post a Blog</Button>
-        </Link>
+        <Login />
       </div>
     </main>
   );
