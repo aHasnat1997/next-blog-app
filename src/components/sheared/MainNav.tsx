@@ -3,10 +3,12 @@
 import Link from "next/link";
 import Login from "../login";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import ProfileDropdown from "./ProfileDropdown";
 
 const MainNav = () => {
   const { data: session } = useSession();
-  console.log(session);
+  // console.log(session);
 
   const links = [
     {
@@ -39,7 +41,16 @@ const MainNav = () => {
             </li>)
           }
         </ul>
-        <Login />
+        <div>
+          {
+            session?.user ?
+              <ProfileDropdown
+                userImage={session.user.image || "https://xsgames.co/randomusers/avatar.php?g=pixel"}
+                name={session.user.name || "User Account"}
+              /> :
+              <Login />
+          }
+        </div>
       </div>
     </main>
   );
