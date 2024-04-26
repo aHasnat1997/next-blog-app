@@ -18,6 +18,8 @@ const MainNav = () => {
     if (session.status === 'authenticated') setUserStatus('authenticated');
   }, [userStatus, session.status]);
 
+  // console.log(session.data);
+
   const links = [
     {
       path: '/',

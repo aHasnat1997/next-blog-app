@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import LinkedInProvider from "next-auth/providers/linkedin";
 import FacebookProvider from "next-auth/providers/facebook";
+import { db } from "@/lib/db";
 
 const handler = NextAuth({
   providers: [
@@ -14,15 +14,42 @@ const handler = NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!
     }),
-    LinkedInProvider({
-      clientId: process.env.LINKEDIN_CLIENT_ID!,
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!
-    }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID!,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET!
     })
-  ]
+  ],
+  callbacks: {
+    async signIn({ user, account, profile, ...rest }) {
+
+      // console.log({ user, account, profile, rest });
+
+      const existingUser = await db.user.findFirst({
+        where: {
+          email: user.email!,
+        },
+      });
+      if (!existingUser) {
+        await db.user.create({
+          data: {
+            email: user.email!,
+            name: user.name!,
+            image: user.image,
+          }
+        })
+      };
+      return true
+    },
+    // async redirect({ url, baseUrl }) {
+    //   return baseUrl
+    // },
+    // async session({ session, token, user }) {
+    //   return session
+    // },
+    // async jwt({ token, user, account, profile }) {
+    //   return token
+    // }
+  }
 })
 
 export { handler as GET, handler as POST };

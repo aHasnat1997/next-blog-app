@@ -4,7 +4,7 @@ import React from 'react';
 
 const page = () => {
   return (
-    <main>
+    <main className='min-h-screen'>
       <Hero />
       <LatestBlog />
     </main>

@@ -13,16 +13,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  email String  @unique
+  name  String
+  image String?
+  rest  Json?
+  blog  Blog[]
+
+  @@map("users")
+}
+
 model Blog {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  author      String
-  authorImage String?
-  content     String
-  imageUrl    String   @default("")
-  likes       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  userEmail String
+  user      User     @relation(fields: [userEmail], references: [email])
+  content   String
+  imageUrl  String   @default("")
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("blogs")
 }

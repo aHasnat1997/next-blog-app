@@ -10,7 +10,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "../ui/button";
-import { FaGoogle, FaGithub, FaFacebook, FaLinkedinIn } from "react-icons/fa";
+import { FaGoogle, FaGithub, FaFacebook } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 
 const Login = () => {
@@ -30,11 +30,6 @@ const Login = () => {
       title: 'Login with Github',
       provider: 'github'
     },
-    // {
-    //   icon: <FaLinkedinIn />,
-    //   title: 'Login with LinkedinIn',
-    //   provider: 'linkedinIn'
-    // },
   ];
 
   return (
