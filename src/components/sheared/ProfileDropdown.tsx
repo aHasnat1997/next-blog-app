@@ -38,7 +38,7 @@ const ProfileDropdown = ({ userImage, name }: { userImage: string, name: string 
             <span>Profile</span>
           </DropdownMenuItem>
 
-          <Link href={'/create-blog'}>
+          <Link href={'/blog/create-blog'}>
             <DropdownMenuItem className="cursor-pointer">
               <NotebookPen className="mr-2 h-4 w-4" />
               <span>Create Blog</span>

@@ -30,11 +30,11 @@ const Login = () => {
       title: 'Login with Github',
       provider: 'github'
     },
-    {
-      icon: <FaLinkedinIn />,
-      title: 'Login with LinkedinIn',
-      provider: 'linkedinIn'
-    },
+    // {
+    //   icon: <FaLinkedinIn />,
+    //   title: 'Login with LinkedinIn',
+    //   provider: 'linkedinIn'
+    // },
   ];
 
   return (
