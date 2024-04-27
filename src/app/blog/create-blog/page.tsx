@@ -2,7 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod";
@@ -12,15 +14,20 @@ import { useToast } from "@/components/ui/use-toast";
 import DOMPurify from "isomorphic-dompurify";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import createBlog from "@/actions/createBlog";
+import { Category } from "@prisma/client";
 
 const formSchema = z.object({
   title: z.string().min(2),
   imageUrl: z.string().min(2),
+  summary: z.string().min(2),
+  category: z.string().min(1),
   content: z.string().min(2),
 });
 
 const CreateBlog = () => {
   type TUserStatus = 'loading' | 'unauthenticated' | 'authenticated';
+  const categoriesList: Category[] = ["Art", "Business", "DIY", "Education", "Entertainment", "Fashion", "Gaming", "Health", "History", "Lifestyle", "Marketing", "Music", "Photography", "Programming", "Science", "Sports", "Tech", "Travel"];
   const session = useSession();
   const [userStatus, setUserStatus] = useState<TUserStatus>('loading');
   const { toast } = useToast();
@@ -37,37 +44,37 @@ const CreateBlog = () => {
     defaultValues: {
       title: '',
       imageUrl: '',
+      summary: '',
+      category: '',
       content: ''
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // console.log(values);
     const cleanContent = DOMPurify.sanitize(values.content);
     const blogData: TBlog = {
       title: values.title,
       imageUrl: values.imageUrl,
       content: cleanContent,
-      author: session?.data?.user?.name || 'N/A',
-      authorImage: session?.data?.user?.image || 'https://xsgames.co/randomusers/avatar.php?g=pixel',
+      summary: values.summary,
+      category: values.category,
+      userEmail: session.data?.user?.email!,
     };
-    fetch(`http://localhost:3000/api/blog`, {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(blogData)
-    })
-      .then((response) => {
-        // console.log(response);
-        toast({
-          title: "Blog Successfully Post...",
-        })
+    // console.log(blogData);
+
+    const cerated = await createBlog(blogData);
+    if (cerated) {
+      toast({
+        title: "Blog Successfully Post...",
       })
-      .catch((error) => {
-        console.error(error)
-        toast({
-          title: "Something went wrong. Blog Not Post...",
-        })
-      });
+    }
+    else if (!cerated) {
+      toast({
+        title: "Blog Post failed...",
+      })
+    }
   };
 
   if (userStatus === 'unauthenticated') {
@@ -105,7 +112,53 @@ const CreateBlog = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Category</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select Your blog Category' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {
+                          categoriesList.map(category => <SelectItem
+                            key={category}
+                            value={category}
+                          >
+                            {category}
+                          </SelectItem>)
+                        }
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
+            <FormField
+              control={form.control}
+              name="summary"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Blog Summary</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      rows={3}
+                      placeholder="Your blog short summary under 200 word"
+                      className="resize-none no-scrollbar"
+                      maxLength={400}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="content"
@@ -113,7 +166,10 @@ const CreateBlog = () => {
                 <FormItem className="w-full">
                   <FormLabel>Blog Content</FormLabel>
                   <FormControl>
-                    <TextEditor blogContent={field.value} onChange={field.onChange} />
+                    <TextEditor
+                      blogContent={field.value}
+                      onChange={field.onChange}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

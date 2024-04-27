@@ -7,6 +7,9 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     const result = await db.blog.findUniqueOrThrow({
       where: {
         id: blogId
+      },
+      include: {
+        user: true
       }
     });
     return NextResponse.json({
