@@ -20,9 +20,9 @@ const handler = NextAuth({
     })
   ],
   callbacks: {
-    async signIn({ user, account, profile, ...rest }) {
-
-      // console.log({ user, account, profile, rest });
+    async signIn(props) {
+      // console.log(props);
+      const { user } = props;
 
       const existingUser = await db.user.findFirst({
         where: {
@@ -35,6 +35,7 @@ const handler = NextAuth({
             email: user.email!,
             name: user.name!,
             image: user.image,
+            rest: JSON.stringify({ props })
           }
         })
       };

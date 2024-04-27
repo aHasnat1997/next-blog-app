@@ -27,11 +27,14 @@ model User {
 model Blog {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
+  summary   String
   userEmail String
   user      User     @relation(fields: [userEmail], references: [email])
   content   String
   imageUrl  String   @default("")
   likes     Int      @default(0)
+  dislikes  Int      @default(0)
+  view      Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

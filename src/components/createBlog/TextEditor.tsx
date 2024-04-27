@@ -32,7 +32,7 @@ const TextEditor = (
     content: blogContent,
     editorProps: {
       attributes: {
-        class: 'border focus:rounded-none h-[35rem] p-8 overflow-y-scroll no-scrollbar',
+        class: 'border focus:rounded-none h-[30rem] p-4 overflow-y-scroll no-scrollbar',
       }
     },
     onUpdate({ editor }) {
@@ -44,7 +44,7 @@ const TextEditor = (
   return (
     <div className='w-full'>
       <Toolbar editor={editor} />
-      <div className='h-[35rem]'>
+      <div className='h-[30rem]'>
         <EditorContent editor={editor} />
       </div>
     </div>

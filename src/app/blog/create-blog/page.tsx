@@ -70,11 +70,6 @@ const CreateBlog = () => {
       });
   };
 
-  // if (userStatus === 'loading') {
-  //   return <div>
-  //     <p>Loading...</p>
-  //   </div>
-  // }
   if (userStatus === 'unauthenticated') {
     throw new Error('Unauthorize...');
   }
