@@ -143,21 +143,26 @@ const CreateBlog = () => {
             <FormField
               control={form.control}
               name="summary"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Blog Summary</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      rows={3}
-                      placeholder="Your blog short summary under 200 word"
-                      className="resize-none no-scrollbar"
-                      maxLength={400}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => (<FormItem className="w-full">
+                <div className="flex items-center justify-between">
+                  <FormLabel>
+                    Blog Summary
+                  </FormLabel>
+                  <p className="text-muted-foreground">
+                    {field.value.length} / 250
+                  </p>
+                </div>
+                <FormControl>
+                  <Textarea
+                    rows={2}
+                    placeholder="Your blog short summary under 250 letters"
+                    className="resize-none no-scrollbar"
+                    maxLength={250}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>)}
             />
             <FormField
               control={form.control}
