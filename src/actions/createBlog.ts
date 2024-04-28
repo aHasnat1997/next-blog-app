@@ -9,8 +9,8 @@ const createBlog = async (blogData: TBlog) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blogData)
     })
-    // console.log(res);
-    return true;
+    // console.log(await res.json());
+    return await res.json();
   } catch (error) {
     console.log(error);
     return false;

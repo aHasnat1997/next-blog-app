@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import createBlog from "@/actions/createBlog";
 import { Category } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   title: z.string().min(2),
@@ -31,6 +32,7 @@ const CreateBlog = () => {
   const session = useSession();
   const [userStatus, setUserStatus] = useState<TUserStatus>('loading');
   const { toast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     if (session.status === 'loading') setUserStatus('loading');
@@ -62,15 +64,15 @@ const CreateBlog = () => {
       category: values.category,
       userEmail: session.data?.user?.email!,
     };
-    // console.log(blogData);
 
     const cerated = await createBlog(blogData);
-    if (cerated) {
+    if (cerated.success) {
+      router.push(`/blog/${cerated?.data?.id}`);
       toast({
         title: "Blog Successfully Post...",
-      })
+      });
     }
-    else if (!cerated) {
+    else if (!cerated.success) {
       toast({
         title: "Blog Post failed...",
       })

@@ -4,8 +4,10 @@ import Link from "next/link";
 import Login from "../login";
 import { useSession } from "next-auth/react";
 import ProfileDropdown from "./ProfileDropdown";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
+import { Input } from "../ui/input";
+import BlogSearch from "./BlogSearch";
 
 const MainNav = () => {
   type TUserStatus = 'loading' | 'unauthenticated' | 'authenticated';
@@ -17,8 +19,6 @@ const MainNav = () => {
     if (session.status === 'unauthenticated') setUserStatus('unauthenticated');
     if (session.status === 'authenticated') setUserStatus('authenticated');
   }, [userStatus, session.status]);
-
-  // console.log(session.data);
 
   const links = [
     {
@@ -52,6 +52,9 @@ const MainNav = () => {
             </li>)
           }
         </ul>
+        <div>
+          <BlogSearch />
+        </div>
         <div>
           {
             userStatus === 'loading' ? <div className="p-1">
