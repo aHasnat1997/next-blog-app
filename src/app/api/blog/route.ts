@@ -7,24 +7,46 @@ export async function GET(req: NextApiRequest) {
   try {
     const conditions: Prisma.BlogWhereInput[] = [];
     const queries = req.url?.split('?')[1]?.split('&');
-    const page = Number(queries?.find(q => q.split('=')[0] === 'page')?.split('=')[1]) - 1 || 0;
-    const limit = Number(queries?.find(q => q.split('=')[0] === 'limit')?.split('=')[1]) || 30;
-    const sortBy = queries?.find(q => q.split('=')[0] === 'sortBy')?.split('=')[1];
-    const sortOrder = queries?.find(q => q.split('=')[0] === 'sortOrder')?.split('=')[1];
-    const category = queries?.find(q => q.split('=')[0] === 'category')?.split('=')[1];
 
-    // to-do: FIX: searchQuery not working
-    const searchQuery = queries?.find(q => q.split('=')[0] === 'searchQuery')?.split('=')[1];
-    const searchableFields = ['title', 'summary'];
+    const pick = (queriesArr: string[] | undefined, field: string) => (
+      queriesArr?.find(q => q.split('=')[0] === field)?.split('=')[1]
+    );
+
+    const page = Number(pick(queries, 'page')) - 1 || 0;
+    const limit = Number(pick(queries, 'limit')) || 20;
+    const sortBy = pick(queries, 'sortBy');
+    const sortOrder = pick(queries, 'sortOrder');
+    const category = pick(queries, 'category');
+    const searchQuery = pick(queries, 'searchQuery');
+
     // console.log(searchQuery);
+    // const searchableFields = ['title', 'summary'];
+    // if (searchQuery) {
+    //   conditions.push({
+    //     OR: searchableFields.map(field => ({
+    //       [field]: {
+    //         contents: searchQuery,
+    //         mode: 'insensitive'
+    //       }
+    //     }))
+    //   })
+    // };
     if (searchQuery) {
       conditions.push({
-        OR: searchableFields.map(key => ({
-          [key]: {
-            contents: searchQuery,
-            mode: 'insensitive'
+        OR: [
+          {
+            title: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
+          },
+          {
+            summary: {
+              contains: searchQuery,
+              mode: 'insensitive'
+            }
           }
-        }))
+        ]
       })
     };
 
@@ -48,9 +70,12 @@ export async function GET(req: NextApiRequest) {
       },
       where: { AND: conditions }
     });
+    const total = await db.blog.count({ where: { AND: conditions } })
+
     return NextResponse.json({
       success: true,
       message: 'All blog found',
+      meta: { page: page + 1, limit, total },
       data: result
     }, { status: 200 });
   } catch (error) {
