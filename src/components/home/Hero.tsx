@@ -7,7 +7,7 @@ const Hero = () => {
       <Image
         src={heroImg}
         alt="Hero Image"
-        className="w-full h-[40rem] rounded-2xl"
+        className="w-full h-[40rem]"
       />
     </section>
   );

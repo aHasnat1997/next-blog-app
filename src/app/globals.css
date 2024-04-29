@@ -4,8 +4,11 @@
 
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%; */
+
+    --background: 120 4% 11%;
+    --foreground: 32 100% 93%;
 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
@@ -77,5 +80,14 @@
 
   .max-section {
     @apply max-w-screen-2xl mx-4 md:mx-auto;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

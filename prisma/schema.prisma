@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  Fashion
+  Travel
+  Lifestyle
+  Tech
+  Health
+  Business
+  Education
+  Programming
+  Music
+  Marketing
+  Sports
+  Entertainment
+  Productivity
+  Photography
+  Art
+  DIY
+  Science
+  Gaming
+  History
+}
+
+model User {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  email String  @unique
+  name  String
+  image String?
+  rest  Json?
+  blog  Blog[]
+
+  @@map("users")
+}
+
+model Blog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  summary   String
+  category  Category
+  userEmail String
+  user      User     @relation(fields: [userEmail], references: [email])
+  content   String
+  imageUrl  String   @default("")
+  likes     Int      @default(0)
+  dislikes  Int      @default(0)
+  view      Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blogs")
+}
